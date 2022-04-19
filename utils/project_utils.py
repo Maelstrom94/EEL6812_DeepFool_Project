@@ -411,7 +411,7 @@ def evaluate_attack(file_name, file_dir, device, model, dataset_loader,
 
 def display_attack(device, model, test_dataset, inv_tf, clip_min, clip_max,
                    fgsm_eps, deep_args, has_labels=False, l2_norm=True,
-                   pert_scale=10.0, fig_rows=5, fig_width=25, fig_height=30,
+                   pert_scale=1.0, fig_rows=2, fig_width=25, fig_height=11,
                    label_map=None):
     """
     Function displays the images and predictions of the FGSM and DeepFool
@@ -435,13 +435,13 @@ def display_attack(device, model, test_dataset, inv_tf, clip_min, clip_max,
                        norm, else if set to false, L-inf norm is used instead
                        (Default = True)
         pert_scale   : Scalar used to increase the perturbation visibility
-                       (Default = 10.0)
+                       (Default = 1.0)
         fig_rows     : Number of images to display in the figure
-                       (Default = 5)
+                       (Default = 2)
         fig_width    : Width of the figure
                        (Default = 25)
         fig_height   : Height of the figure
-                       (Default = 30)
+                       (Default = 11)
         label_map    : List that maps the label index to name of the label
                        (Default = None)
     
@@ -458,6 +458,11 @@ def display_attack(device, model, test_dataset, inv_tf, clip_min, clip_max,
     
     images, labels = next(iter(test_loader))
     images, labels = images.to(device), labels.to(device)
+    
+    if images.shape[1] == 1:
+        is_gray = True
+    else:
+        is_gray = False
     
     with torch.no_grad():
         confs_pred, labels_pred = model(images).max(dim=1)
@@ -484,11 +489,11 @@ def display_attack(device, model, test_dataset, inv_tf, clip_min, clip_max,
     images_5 = inv_tf(perts_deep * pert_scale)
     
     for i in range(fig_rows):
-        image_1 = transforms.ToPILImage(mode='RGB')(images_1[i])
-        image_2 = transforms.ToPILImage(mode='RGB')(images_2[i])
-        image_3 = transforms.ToPILImage(mode='RGB')(images_3[i])
-        image_4 = transforms.ToPILImage(mode='RGB')(images_4[i])
-        image_5 = transforms.ToPILImage(mode='RGB')(images_5[i])
+        image_1 = transforms.ToPILImage()(images_1[i])
+        image_2 = transforms.ToPILImage()(images_2[i])
+        image_3 = transforms.ToPILImage()(images_3[i])
+        image_4 = transforms.ToPILImage()(images_4[i])
+        image_5 = transforms.ToPILImage()(images_5[i])
         
         label_true = labels[i].item()
         label_pred = labels_pred[i].item()
@@ -504,52 +509,67 @@ def display_attack(device, model, test_dataset, inv_tf, clip_min, clip_max,
         fig.add_subplot(fig_rows, 5, (i * 5) + 1)
         plt.xticks([])
         plt.yticks([])
+        plt.xlabel('true label : {:s}\npred label : {:s}\nconf score : {:.2f}'\
+            .format(str(label_true), str(label_pred), confs_pred[i].item()),
+            fontsize=16, loc='left')
         if i == 0:
             plt.title(label='Original', fontsize=20)
-        plt.xlabel('true label : {:s}\npred label : {:s}\nconf score : {:.2f}'\
-            .format(label_true, label_pred, confs_pred[i].item()),
-            fontsize=16, loc='left')
-        plt.imshow(image_1)
+        if is_gray:
+            plt.imshow(image_1, cmap='gray')
+        else:
+            plt.imshow(image_1)
         
         fig.add_subplot(fig_rows, 5, (i * 5) + 2)
         plt.xticks([])
         plt.yticks([])
+        plt.xlabel('pred label : {:s}\nconf score : {:.2f}'\
+            .format(str(label_fgsm), confs_fgsm[i].item()),
+            fontsize=16, loc='left')
         if i == 0:
             plt.title(label='Adversarial (FGSM)', fontsize=20)
-        plt.xlabel('pred label : {:s}\nconf score : {:.2f}'\
-            .format(label_fgsm, confs_fgsm[i].item()),
-            fontsize=16, loc='left')
-        plt.imshow(image_2)
+        if is_gray:
+            plt.imshow(image_2, cmap='gray')
+        else:
+            plt.imshow(image_2)
         
         fig.add_subplot(fig_rows, 5, (i * 5) + 3)
         plt.xticks([])
         plt.yticks([])
+        plt.xlabel('pred label : {:s}\nconf score : {:.2f}'\
+            .format(str(label_deep), confs_deep[i].item()),
+            fontsize=16, loc='left')
         if i == 0:
             plt.title(label='Adversarial (DeepFool)', fontsize=20)
-        plt.xlabel('pred label : {:s}\nconf score : {:.2f}'\
-            .format(label_deep, confs_deep[i].item()),
-            fontsize=16, loc='left')
-        plt.imshow(image_3)
+        if is_gray:
+            plt.imshow(image_3, cmap='gray')
+        else:
+            plt.imshow(image_3)
         
         fig.add_subplot(fig_rows, 5, (i * 5) + 4)
         plt.xticks([])
         plt.yticks([])
-        if i == 0:
-            plt.title(label='Perturbation (FGSM)', fontsize=20)
         plt.xlabel('robustness : {:.2e}\neps : {:s}'\
             .format(p_adv_fgsm[i], str(fgsm_eps)),
             fontsize=16, loc='left')
-        plt.imshow(image_4)
+        if i == 0:
+            plt.title(label='Perturbation (FGSM)', fontsize=20)
+        if is_gray:
+            plt.imshow(image_4, cmap='gray')
+        else:
+            plt.imshow(image_4)
         
         fig.add_subplot(fig_rows, 5, (i * 5) + 5)
         plt.xticks([])
         plt.yticks([])
-        if i == 0:
-            plt.title(label='Perturbation (DeepFool)', fontsize=20)
         plt.xlabel('robustness : {:.2e}\novershoot : {:s}\niters : {:d}'\
             .format(p_adv_deep[i], str(deep_args[2]), iters_deep[i]),
             fontsize=16, loc='left')
-        plt.imshow(image_5)
+        if i == 0:
+            plt.title(label='Perturbation (DeepFool)', fontsize=20)
+        if is_gray:
+            plt.imshow(image_5, cmap='gray')
+        else:
+            plt.imshow(image_5)
     
     plt.show()
     
