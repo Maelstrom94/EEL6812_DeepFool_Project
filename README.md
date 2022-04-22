@@ -59,6 +59,15 @@ The parameters used for the project are the following:
 ### Adversarial Training
 ![Table 2{captain=Table 2 - Adversarial Training of Project and DeepFool Paper}](/images/adversarial_training.png)
 
+### MNIST Adversarial Examples (FC-500-150)
+![Figure 1{captain=Figure 1 - MNIST Adversarial Examples Generated using FC-500-150}](/images/examples_fc-500-150.png)
+
+### CIFAR-10 Adversarial Examples (LeNet-5)
+![Figure 2{captain=Figure 2 - CIFAR-10 Adversarial Examples Generated using LeNet-5}](/images/examples_lenet-5.png)
+
+### ILSVRC2012 Adversarial Examples (GoogLeNet)
+![Figure 3{captain=Figure 3 - ILSVRC2012 Adversarial Examples Generated using GoogLeNet}](/images/examples-googlenet.png)
+
 ## Conclusion
 The adverarial inference/robustness results of the project were similar to the DeepFool paper. Inference was faster, as the hardware used for this project is faster than the hardware used for DeepFool. Adversarial robustness was not the same as the original results, as the epsilon values for FGSM were never mentioned in the paper. For adversarial training, DeepFool was found to not improve adversarial robustness, but this could be due to the fact that if the algorithm has access to the updated weights from the previous batch, it would always manage to find the minimal perturbations to have the classifier misclassify. For FGSM, having the model train on adversarials generated for each batch increases model robustness for MNIST and CIFAR-10. However for CIFAR-10, the accuracy for clean images decreases in exchange for adversarial robustness, but this is an expected result when doing adversarial training.
 
