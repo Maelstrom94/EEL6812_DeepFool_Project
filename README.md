@@ -4,7 +4,21 @@
 The purpose of this project was to re-implement the results from the paper *DeepFool: a simple and accurate method to fool deep neural networks* by Moosavi-Dezfooli, et al. [[1]](https://arxiv.org/pdf/1511.04599.pdf). Along with the DeepFool method being used in this project, the Fast Gradient Sign Method (FGSM) from *Explaining and Harnessing Adversarial Examples* by Goodfellow, et al. [[2]](https://arxiv.org/pdf/1412.6572.pdf) was used for comparison in this project. Models used in DeepFool were also replicated for this project based on their descriptions in the paper, and had their test error, adversarial inference, adversarial robustness evaluated. The DeepFool paper used fine-tuning and adversarial training on the models, which were also attempted to be re-implemented in this project.
 
 ## Datasets Used
-The following datasets used for the project are [MNIST](http://yann.lecun.com/exdb/mnist/), [CIFAR-10](https://www.cs.toronto.edu/~kriz/cifar.html), and [ILSVRC2012](https://www.image-net.org/challenges/LSVRC/2012/), which were used in the DeepFool paper. The datasets of MNIST and CIFAR-10 contain 10 classes, in which MNIST contains 28x28 grayscale images of hand-written digits, while CIFAR-10 has 32x32 RGB images of airplanes, automobiles, birds, cats, deers, dogs, frogs, horses, ships, and trucks. Both of these datasets are widely used for machine learning research and for also evaluating models before they are trained on larger datasets, so they were used for adversarial evaluation/training in this project. The ILSVRC2012 dataset, also known as ImageNet, contains over 1000 classes and is used for evaluating state of the art Deep Neural Network models, such as GoogLeNet, which is used for this project.
+The following datasets used for the project are [MNIST](http://yann.lecun.com/exdb/mnist/), [CIFAR-10](https://www.cs.toronto.edu/~kriz/cifar.html), and [ILSVRC2012](https://www.image-net.org/challenges/LSVRC/2012/), which were used in the DeepFool paper. The training and validation sets of MNIST and CIFAR-10 were used for adversarial training and evaluation in this project, while the validation set of ILSVRC2012 was used only for adversarial evaluation. The specifications of the datasets are the following:
+* MNIST Dataset
+  * Has 28x28 grayscale images of hand-written digits
+  * Has 60,000 training images and 10,000 validation images
+  * 10,000 images were split for validation from training, and the original validation images were used for testing
+  * Dataset was normalized for this project along with random horizontal flipping of images for training/validation
+* CIFAR-10 Dataset
+  * Has 32x32 RGB images of airplanes, automobiles, birds, cats, deers, dogs, frogs, horses, ships, and trucks
+  * Has 50,000 training images and 10,000 validation images 
+  * 10,000 images were split for validation from training, and the original validation images were used for testing
+  * Dataset was normalized for this project along with random horizontal flipping and cropping of images for training/validation
+* ILSVRC2012 Validation Dataset
+  * Has 1000 classes and 50,000 validation images
+  * Images were resized to size of 256 and cropped to size of 224 for GoogLeNet model
+  * Dataset was normalized for this project
 
 ## Models Used
 The models used for the project are the following:
