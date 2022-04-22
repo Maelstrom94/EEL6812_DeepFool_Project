@@ -15,7 +15,7 @@ The following datasets used for the project are [MNIST](http://yann.lecun.com/ex
   * Has 50,000 training images and 10,000 validation images 
   * 10,000 images were split for validation from training, and the original validation images were used for testing
   * Dataset was normalized for this project along with random horizontal flipping and cropping of images for training/validation
-* ILSVRC2012 Validation Dataset
+* ILSVRC2012 Dataset (Validation)
   * Has 1000 classes and 50,000 validation images
   * Images were resized to size of 256 and cropped to size of 224 for GoogLeNet model
   * Dataset was normalized for this project
