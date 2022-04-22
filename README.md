@@ -1,4 +1,4 @@
-# DeepFool Project
+# EEL6812 DeepFool Project
 
 ## Introduction
 The purpose of this project was to re-implement the results from the paper *DeepFool: a simple and accurate method to fool deep neural networks* by Moosavi-Dezfooli, et al. [[1]](https://arxiv.org/pdf/1511.04599.pdf). Along with the DeepFool method being used in this project, the Fast Gradient Sign Method (FGSM) from *Explaining and Harnessing Adversarial Examples* by Goodfellow, et al. [[2]](https://arxiv.org/pdf/1412.6572.pdf) was used for comparison in this project. Models used in DeepFool were also replicated for this project based on their descriptions in the paper, and had their test error, adversarial inference, adversarial robustness evaluated. The DeepFool paper used fine-tuning and adversarial training on the models, which were also attempted to be re-implemented in this project.
