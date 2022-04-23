@@ -1,24 +1,24 @@
 # EEL6812 DeepFool Project
 
 ## Introduction
-The purpose of this project was to re-implement the results from the paper *DeepFool: a simple and accurate method to fool deep neural networks* by Moosavi-Dezfooli, et al. [[1]](https://arxiv.org/pdf/1511.04599.pdf). Along with the DeepFool method being used in this project, the Fast Gradient Sign Method (FGSM) from *Explaining and Harnessing Adversarial Examples* by Goodfellow, et al. [[2]](https://arxiv.org/pdf/1412.6572.pdf) was used for comparison in this project. Models used in DeepFool were also replicated for this project based on their descriptions in the paper, and had their test error, adversarial inference, adversarial robustness evaluated. The DeepFool paper used fine-tuning and adversarial training on the models, which were also attempted to be re-implemented in this project.
+The purpose of this project was to re-implement the results from the paper *DeepFool: a simple and accurate method to fool deep neural networks* by Moosavi-Dezfooli, et al. [[1]](https://arxiv.org/pdf/1511.04599.pdf). Along with the DeepFool method being used in this project, the Fast Gradient Sign Method (FGSM) from *Explaining and Harnessing Adversarial Examples* by Goodfellow, et al. [[2]](https://arxiv.org/pdf/1412.6572.pdf) was used for comparison. Models used in DeepFool were also replicated for this project based on their descriptions in the paper, and had their test error, adversarial inference, adversarial robustness evaluated. The DeepFool paper used adversarial training on the models, which were also attempted to be re-implemented in this project.
 
 ## Datasets Used
-The following datasets used for the project are [MNIST](http://yann.lecun.com/exdb/mnist/), [CIFAR-10](https://www.cs.toronto.edu/~kriz/cifar.html), and [ILSVRC2012](https://www.image-net.org/challenges/LSVRC/2012/), which were used in the DeepFool paper. The training and validation sets of MNIST and CIFAR-10 were used for adversarial training and evaluation in this project, while the validation set of ILSVRC2012 was used only for adversarial evaluation. The specifications of the datasets are the following:
+The following datasets used in the DeepFool paper are [MNIST](http://yann.lecun.com/exdb/mnist/), [CIFAR-10](https://www.cs.toronto.edu/~kriz/cifar.html), and [ILSVRC2012](https://www.image-net.org/challenges/LSVRC/2012/). The training and validation sets of MNIST and CIFAR-10 were used for adversarial training and evaluation, while the validation set of ILSVRC2012 was used only for adversarial evaluation. The specifications of the datasets are the following:
 * MNIST Dataset
   * Has 28x28 grayscale images of hand-written digits
   * Has 60,000 training images and 10,000 validation images
   * 10,000 images were split for validation from training, and the original validation images were used for testing
-  * Dataset was normalized for this project along with random horizontal flipping of images for training/validation
+  * Dataset was normalized along with random horizontal flipping of images for training/validation
 * CIFAR-10 Dataset
   * Has 32x32 RGB images of airplanes, automobiles, birds, cats, deers, dogs, frogs, horses, ships, and trucks
   * Has 50,000 training images and 10,000 validation images 
   * 10,000 images were split for validation from training, and the original validation images were used for testing
-  * Dataset was normalized for this project along with random horizontal flipping and cropping of images for training/validation
+  * Dataset was normalized along with random horizontal flipping and cropping of images for training/validation
 * ILSVRC2012 Dataset (Validation)
   * Has 1000 classes and 50,000 validation images
   * Images were resized to size of 256 and cropped to size of 224 for GoogLeNet model
-  * Dataset was normalized for this project
+  * Dataset was normalized
 
 ## Models Used
 The models used for the project are the following:
@@ -50,7 +50,7 @@ The parameters used for the project are the following:
 * The models were trained/evaluated using an Nvidia RTX 2070 Super graphics card
 * Models were trained for 50 epochs using SGD with learning rate of 0.004 and momentum of 0.9
   * Network-In-Network model was trained for 100 epochs with learning rate of 0.1
-  * Network-In-Network learning rate is divided by 10 every 80 epochs
+  * Network-In-Network learning rate was divided by 10 every 80 epochs
 * Models were fine-tuned and adversarially trained using half the learning rate for 50 epochs
   * Network-In-Network model was adversarially trained using 100 epochs
   * DeepFool adversarial training was cut at 5 epochs, as accuracy did not improve compared to FGSM
@@ -83,7 +83,7 @@ The parameters used for the project are the following:
 ![Figure 3{captain=Figure 3 - ILSVRC2012 Adversarial Examples Generated using GoogLeNet}](/images/examples-googlenet.png)
 
 ## Conclusion
-The adverarial inference/robustness results of the project were similar to the DeepFool paper. Inference was faster, as the hardware used for this project is faster than the hardware used for DeepFool. Adversarial robustness was not the same as the original results, as the epsilon values for FGSM were never mentioned in the paper. For adversarial training, DeepFool was found to not improve adversarial robustness, but this could be due to the fact that if the algorithm has access to the updated weights from the previous batch, it would always manage to find the minimal perturbations to have the classifier misclassify. For FGSM, having the model train on adversarials generated for each batch increases model robustness for MNIST and CIFAR-10. However for CIFAR-10, the accuracy for clean images decreases in exchange for adversarial robustness, but this is an expected result when doing adversarial training.
+The adverarial inference/robustness results of the project were similar to the DeepFool paper. Inference was faster, as the hardware used for this project was faster than the hardware used for DeepFool. Adversarial robustness was not the same as the original results, as the epsilon values for FGSM were never mentioned in the paper. For adversarial training, DeepFool was found to not improve adversarial robustness, but this could be due to the fact that if the algorithm has access to the updated weights from the previous batch, it would always manage to find the minimal perturbations to have the classifier misclassify. For FGSM, having the model train on adversarials generated for each batch increases model robustness for MNIST and CIFAR-10. However for CIFAR-10, the accuracy for clean images decreases in exchange for adversarial robustness, but this was an expected result when doing adversarial training.
 
 ## Project Setup
 The code for this project was ran on a Docker image [[5]](https://github.com/pman0214/docker_pytorch-jupyterlab) using PyTorch w/ CUDA on JupyterLab. Additional dependencies of this project include NumPy, Pandas, and Matplotlib, which are included within the Docker image.
