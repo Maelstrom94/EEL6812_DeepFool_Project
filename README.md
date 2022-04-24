@@ -46,8 +46,7 @@ The models used for the project are the following:
   * Due to time constraints, this model was not implemented for the project
 
 ## Experiment Setup
-The parameters used for the project are the following:
-* The models were trained/evaluated using an Nvidia RTX 2070 Super graphics card
+The models were trained/evaluated using an Nvidia RTX 2070 Super graphics card. The parameters used for the project are the following:
 * Models were trained for 50 epochs using SGD with learning rate of 0.004 and momentum of 0.9
   * Network-In-Network model was trained for 100 epochs with learning rate of 0.1
   * Network-In-Network learning rate was divided by 10 every 80 epochs
