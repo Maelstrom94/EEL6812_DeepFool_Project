@@ -40,7 +40,7 @@ The models used for the project are the following:
   * Uses three linear hidden layers with sizes of 400, 120, and 84
   * Uses ReLU for activation functions
 * GoogLeNet for ILSVRC2012
-  * State of the art model that ranked high in object detection and classification categories for the [ILSVRC2014 challenge](https://image-net.org/challenges/LSVRC/2014/results)
+  * State of the art model that ranked high in object detection and classification categories for the [ILSVRC2014](https://image-net.org/challenges/LSVRC/2014/results) challenge
   * Uses pre-trained weights that were trained on ImageNet
 * CaffeNet for ILSVRC2012
   * Due to time constraints, this model was not implemented for the project
